@@ -64,20 +64,18 @@ public class CustomVfsUiPanel extends Composite {
     this.vfsSchemeDisplayText = vfsSchemeDisplayText;
   }
 
-  public FileObject resolveFile(String fileUri, FileSystemOptions opts) throws FileSystemException {
+  public FileObject resolveFile( String fileUri, FileSystemOptions opts ) throws FileSystemException {
+    if ( opts == null ) {
+      opts = new FileSystemOptions();
+
+    }
     FileSystem fs = null;
-    if(vfsFileChooserDialog.rootFile != null) {
+    if ( vfsFileChooserDialog.rootFile != null ) {
       fs = vfsFileChooserDialog.rootFile.getFileSystem();
     }
-    if(fs != null) {
-      if(opts == null) {
-        return fs.getFileSystemManager().resolveFile(fileUri);
-      } else {
-        fs.getFileSystemManager().resolveFile(fileUri, opts);
-      }
-    }
-    return null;
+    return ( fs != null ) ? fs.getFileSystemManager().resolveFile( fileUri, opts ) : null;
   }
+
   public FileObject resolveFile(String fileUri) throws FileSystemException {
     return resolveFile(fileUri, null);
   }
